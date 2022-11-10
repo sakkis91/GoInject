@@ -3,6 +3,7 @@ package syscalls
 import (
 	"syscall"
 	"unsafe"
+	"GoInject/structs"
 
 	"golang.org/x/sys/windows"
 )
@@ -42,7 +43,7 @@ var (
 	procCreateProcessW                    = kernel32.NewProc("CreateProcessW")
 )
 
-func InitializeProcThreadAttributeList(lpAttributeList *PROC_THREAD_ATTRIBUTE_LIST, dwAttributeCount uint32, dwFlags uint32, lpSize *uintptr) (err error) {
+func InitializeProcThreadAttributeList(lpAttributeList *structs.PROC_THREAD_ATTRIBUTE_LIST, dwAttributeCount uint32, dwFlags uint32, lpSize *uintptr) (err error) {
 	r1, _, e1 := syscall.Syscall6(procInitializeProcThreadAttributeList.Addr(), 4, uintptr(unsafe.Pointer(lpAttributeList)), uintptr(dwAttributeCount), uintptr(dwFlags), uintptr(unsafe.Pointer(lpSize)), 0, 0)
 	if r1 == 0 {
 		if e1 != 0 {
@@ -55,7 +56,7 @@ func InitializeProcThreadAttributeList(lpAttributeList *PROC_THREAD_ATTRIBUTE_LI
 }
 
 
-func UpdateProcThreadAttribute(lpAttributeList *PROC_THREAD_ATTRIBUTE_LIST, dwFlags uint32, attribute uintptr, lpValue *uintptr, cbSize uintptr, lpPreviousValue uintptr, lpReturnSize *uintptr) (err error) {
+func UpdateProcThreadAttribute(lpAttributeList *structs.PROC_THREAD_ATTRIBUTE_LIST, dwFlags uint32, attribute uintptr, lpValue *uintptr, cbSize uintptr, lpPreviousValue uintptr, lpReturnSize *uintptr) (err error) {
 	r1, _, e1 := syscall.Syscall9(procUpdateProcThreadAttribute.Addr(), 7, uintptr(unsafe.Pointer(lpAttributeList)), uintptr(dwFlags), uintptr(attribute), uintptr(unsafe.Pointer(lpValue)), uintptr(cbSize), uintptr(lpPreviousValue), uintptr(unsafe.Pointer(lpReturnSize)), 0, 0)
 	if r1 == 0 {
 		if e1 != 0 {
@@ -67,7 +68,7 @@ func UpdateProcThreadAttribute(lpAttributeList *PROC_THREAD_ATTRIBUTE_LIST, dwFl
 	return
 }
 
-func CreateProcess(appName *uint16, commandLine *uint16, procSecurity *windows.SecurityAttributes, threadSecurity *windows.SecurityAttributes, inheritHandles bool, creationFlags uint32, env *uint16, currentDir *uint16, startupInfo *StartupInfoEx, outProcInfo *windows.ProcessInformation) (err error) {
+func CreateProcess(appName *uint16, commandLine *uint16, procSecurity *windows.SecurityAttributes, threadSecurity *windows.SecurityAttributes, inheritHandles bool, creationFlags uint32, env *uint16, currentDir *uint16, startupInfo *structs.StartupInfoEx, outProcInfo *windows.ProcessInformation) (err error) {
 	var _p0 uint32
 	if inheritHandles {
 		_p0 = 1
