@@ -2,7 +2,8 @@ package spoof
 
 import (
 	"syscall"
-	"syscalls"
+	"GoInject/syscalls"
+	"GoInject/structs"
 	"unsafe"
 	"GoInject/findPID"
 	"golang.org/x/sys/windows"
@@ -23,7 +24,7 @@ func SpoofParent(pProcess string, cProcess string){
 	cProcessUTF16, _ := windows.UTF16PtrFromString(cProcess)
 
 	//StartupInfoEx and ProcessInformation structs
-	var siX syscalls.StartupInfoEx
+	var siX structs.StartupInfoEx
     pi := windows.ProcessInformation{}
 
     var attributeSize uintptr 
@@ -32,7 +33,7 @@ func SpoofParent(pProcess string, cProcess string){
 
     attributeList, _, _ := HeapAlloc.Call(heap, 0, attributeSize)
     defer HeapFree.Call(heap, 0, attributeList)
-    siX.AttributeList = (*syscalls.PROC_THREAD_ATTRIBUTE_LIST)(unsafe.Pointer(attributeList))
+    siX.AttributeList = (*structs.PROC_THREAD_ATTRIBUTE_LIST)(unsafe.Pointer(attributeList))
     syscalls.InitializeProcThreadAttributeList(siX.AttributeList, 2, 0, &attributeSize)
 
     //restrict the process from loading any non ms-signed dll
@@ -46,7 +47,7 @@ func SpoofParent(pProcess string, cProcess string){
 
 	uintptrpHandle := uintptr(pHandle)
 
-	syscalls.UpdateProcThreadAttribute(siX.AttributeList, 0, syscalls.PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &uintptrpHandle, unsafe.Sizeof(pHandle), 0, nil)
+	syscalls.UpdateProcThreadAttribute(siX.AttributeList, 0, structs.PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &uintptrpHandle, unsafe.Sizeof(pHandle), 0, nil)
 
 	siX.Cb = uint32(unsafe.Sizeof(siX))
 	siX.Flags = windows.STARTF_USESHOWWINDOW
