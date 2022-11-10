@@ -21,7 +21,7 @@ func main(){
 
 
 
-	//If sandbox is detected, exit
+	//If sandbox/debugger is detected, exit
    if(sandboxDetection.Sleep() || sandboxDetection.IsBeingDebugged()){
    	os.Exit(0)
    }
